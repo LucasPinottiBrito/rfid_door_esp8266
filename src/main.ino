@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <SPI.h>
 #include <MFRC522.h>
 #include <ESP8266WiFi.h>
@@ -39,7 +40,7 @@ void loop() {
   if (currentTime - lastReadTime >= readDelay) {
     lastReadTime = currentTime;
 
-    String cardID = getCardUID(mfrc522);
+    String cardID = getCardID(mfrc522);
     Serial.print("\n🔍 Card detected: ");
     Serial.println(cardID);
 
