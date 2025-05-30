@@ -8,9 +8,19 @@
 #include "WiFiManagerHelper.h"
 #include "RfidUtils.h"
 
+#include <ESP8266WiFi.h>
+#include "MqttClientHelper.h"
+
 #define SS_PIN 15  // SDA
 #define RST_PIN 2  // RST
 #define SERVO_PIN 5
+
+MqttClientHelper mqttClient(
+    "e519d15084bd448286ec5dd6851ab338.s2.eu.hivemq.cloud", // host
+    8883,                 // port
+    "Rfid_device",
+    "Rfid_device1"
+);
 
 MFRC522 rfid(SS_PIN, RST_PIN);
 StepperController stepper(SERVO_PIN);
@@ -26,9 +36,14 @@ void setup() {
     SPI.begin();
     rfid.PCD_Init();
     stepper.begin();
+    mqttClient.setup("esp8266_rfid_01");
+    mqttClient.publish("meu/topico/teste", "Iniciando!");
+
 }
 
 void loop() {
+    mqttClient.loop();
+    
     if (!rfid.PICC_IsNewCardPresent() || !rfid.PICC_ReadCardSerial()) return;
 
     unsigned long now = millis();
