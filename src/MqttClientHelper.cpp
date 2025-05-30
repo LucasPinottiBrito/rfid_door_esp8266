@@ -14,6 +14,7 @@ void MqttClientHelper::setup(const char* clientId) {
 void MqttClientHelper::loop() {
     if (!mqttClient.connected()) {
         reconnect();
+        mqttClient.subscribe("/smartroom/porta/control");
     }
     mqttClient.loop();
 }
@@ -49,4 +50,16 @@ void MqttClientHelper::reconnect() {
             delay(5000);
         }
     }
+}
+
+void MqttClientHelper::subscribe(const char* topic) {
+    mqttClient.subscribe(topic);
+}
+
+void MqttClientHelper::setCallback(MQTT_CALLBACK_SIGNATURE) {
+    mqttClient.setCallback(callback);
+}
+
+void MqttClientHelper::disconnect() {
+    mqttClient.disconnect();
 }

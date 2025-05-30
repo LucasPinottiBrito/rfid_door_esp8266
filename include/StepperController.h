@@ -12,7 +12,7 @@ public:
         lock();
     }
     void unlock() {
-        servo.write(90);
+        servo.write(120);
     }
     void lock() {
         servo.write(0);

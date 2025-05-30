@@ -11,6 +11,10 @@ public:
     void loop();
     bool publish(const char* topic, const char* payload);
     bool isConnected();
+    void subscribe(const char* topic);
+    void setCallback(MQTT_CALLBACK_SIGNATURE);
+    void disconnect();    // ← novo
+    void reconnect();     // ← agora público
 
 private:
     const char* mqtt_host;
@@ -20,7 +24,6 @@ private:
     WiFiClientSecure wifiClient;
     PubSubClient mqttClient;
     const char* mqtt_clientId;
-    void reconnect();
 };
 
 #endif
