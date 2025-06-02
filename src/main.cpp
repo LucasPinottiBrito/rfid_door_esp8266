@@ -39,6 +39,7 @@ void setup() {
     stepper.begin();
     
     mqttClient.setup(device_id.c_str());
+    mqttClient.subscribe("/smartroom/porta/control");
     
     mqttClient.setCallback([](char* topic, byte* payload, unsigned int length) {
         Serial.print("Mensagem recebida no tópico: ");
